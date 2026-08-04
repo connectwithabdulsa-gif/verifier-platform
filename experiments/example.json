@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0",
+  "id": "EXP-PROVIDER-BASELINE-001",
+  "title": "Authorized provider RCPT baseline",
+  "hypothesis": "Known-valid and known-invalid test mailboxes produce distinguishable recipient-stage evidence.",
+  "authorization": {
+    "owner": "replace-with-authorized-owner",
+    "basis": "company_owned",
+    "expiresAt": "2027-01-01T00:00:00Z"
+  },
+  "limits": { "maxCases": 10, "maxConcurrency": 1, "maxPerDomain": 2 },
+  "cases": [
+    { "id": "google-valid", "provider": "google", "addressEnv": "EXPERIMENT_ADDRESS_GOOGLE_VALID", "expected": "valid", "tags": ["known-valid"] },
+    { "id": "google-invalid", "provider": "google", "addressEnv": "EXPERIMENT_ADDRESS_GOOGLE_INVALID", "expected": "invalid", "tags": ["known-invalid"] }
+  ]
+}
