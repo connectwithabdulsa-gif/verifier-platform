@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0",
+  "id": "major-provider-baseline-v1",
+  "title": "Major provider recipient response baseline",
+  "hypothesis": "Provider recipient responses normalize without converting policy blocks or temporary failures into mailbox absence.",
+  "authorization": { "owner": "product-operator", "basis": "company_owned", "expiresAt": "2027-08-03T00:00:00Z" },
+  "limits": { "maxCases": 12, "maxConcurrency": 1, "maxPerDomain": 2 },
+  "cases": [
+    { "id":"google-valid", "provider":"google", "addressEnv":"EXPERIMENT_ADDRESS_GOOGLE_VALID", "expected":"valid", "tags":["known-valid"] },
+    { "id":"google-invalid", "provider":"google", "addressEnv":"EXPERIMENT_ADDRESS_GOOGLE_INVALID", "expected":"invalid", "tags":["known-invalid"] },
+    { "id":"microsoft-valid", "provider":"microsoft", "addressEnv":"EXPERIMENT_ADDRESS_MICROSOFT_VALID", "expected":"valid", "tags":["known-valid"] },
+    { "id":"microsoft-invalid", "provider":"microsoft", "addressEnv":"EXPERIMENT_ADDRESS_MICROSOFT_INVALID", "expected":"invalid", "tags":["known-invalid"] },
+    { "id":"yahoo-valid", "provider":"yahoo", "addressEnv":"EXPERIMENT_ADDRESS_YAHOO_VALID", "expected":"valid", "tags":["known-valid"] },
+    { "id":"yahoo-invalid", "provider":"yahoo", "addressEnv":"EXPERIMENT_ADDRESS_YAHOO_INVALID", "expected":"invalid", "tags":["known-invalid"] },
+    { "id":"zoho-valid", "provider":"zoho", "addressEnv":"EXPERIMENT_ADDRESS_ZOHO_VALID", "expected":"valid", "tags":["known-valid"] },
+    { "id":"proton-valid", "provider":"proton", "addressEnv":"EXPERIMENT_ADDRESS_PROTON_VALID", "expected":"valid", "tags":["known-valid"] },
+    { "id":"fastmail-valid", "provider":"fastmail", "addressEnv":"EXPERIMENT_ADDRESS_FASTMAIL_VALID", "expected":"valid", "tags":["known-valid"] }
+  ]
+}
