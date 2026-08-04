@@ -1,0 +1,12 @@
+services:
+  verifier:
+    build: .
+    ports: ["8080:8080"]
+    environment:
+      VERIFIER_API_KEY: ${VERIFIER_API_KEY}
+      VERIFIER_WEBHOOK_SECRET: ${VERIFIER_WEBHOOK_SECRET}
+      VERIFIER_GREETING_IDENTITY: ${VERIFIER_GREETING_IDENTITY}
+      VERIFIER_ENVELOPE_SENDER: ${VERIFIER_ENVELOPE_SENDER}
+    volumes: ["verifier-data:/data"]
+    restart: unless-stopped
+volumes: {verifier-data: {}}
