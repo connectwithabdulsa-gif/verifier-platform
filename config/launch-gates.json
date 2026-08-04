@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "release": "controlled_beta",
+  "minimum_samples_per_provider": 1000,
+  "maximum_false_positive_rate": 0.005,
+  "maximum_false_negative_rate": 0.03,
+  "maximum_observed_bounce_rate": 0.02,
+  "required_providers": ["google", "microsoft", "yahoo", "zoho", "proton", "fastmail"],
+  "minimum_observation_window_days": 30,
+  "maximum_evidence_age_days": 30,
+  "required_consecutive_passing_windows": 3
+}
