@@ -1,0 +1,17 @@
+{
+  "name": "verifier-platform",
+  "version": "1.0.0-beta.1",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node scripts/test.mjs",
+    "beta:check": "node scripts/beta-readiness.mjs",
+    "beta:init": "node scripts/new-beta-env.mjs",
+    "beta:fixture": "node --env-file=.env.beta.local scripts/beta-fixture-server.ts",
+    "beta:smoke": "node --env-file=.env.beta.local scripts/beta-smoke.mjs",
+    "beta:e2e": "node --env-file=.env.beta.local scripts/beta-e2e.mjs",
+    "start": "node src/api/server.ts",
+    "experiment": "node src/experiments/cli.ts"
+  }
+}
