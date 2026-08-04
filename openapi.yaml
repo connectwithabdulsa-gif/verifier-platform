@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info: {title: Verifier API, version: 0.2.0}
+servers: [{url: /}]
+security: [{bearerAuth: []}]
+paths:
+  /health:
+    get: {security: [], responses: {'200': {description: Healthy}}}
+  /v1/verifications:
+    post:
+      summary: Verify one address
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/VerificationRequest'}}}}
+      responses: {'200': {description: Final result, content: {application/json: {schema: {$ref: '#/components/schemas/VerificationResult'}}}}, '202': {description: Refinement pending}}
+  /v1/verifications/{id}:
+    get: {summary: Read a tenant-owned result, parameters: [{in: path, name: id, required: true, schema: {type: string}}], responses: {'200': {description: Result}, '404': {description: Not found}}}
+  /v1/bulk-jobs:
+    post:
+      summary: Create a durable bulk job of up to 100000 unique addresses
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/BulkRequest'}}, text/csv: {schema: {type: string}}}}
+      responses: {'202': {description: Job queued}}
+  /v1/bulk-jobs/{id}:
+    get: {summary: Get progress and results, parameters: [{in: path, name: id, required: true, schema: {type: string}}], responses: {'200': {description: Job}}}
+  /v1/bulk-jobs/{id}/export:
+    get: {summary: Export results as CSV, parameters: [{in: path, name: id, required: true, schema: {type: string}}], responses: {'200': {description: CSV export, content: {text/csv: {schema: {type: string}}}}}}
+  /v1/account:
+    get: {summary: Read plan, beta status, and monthly usage, responses: {'200': {description: Account}}}
+  /v1/account/api-keys:
+    get: {summary: List redacted API keys, responses: {'200': {description: Keys}}}
+    post: {summary: Create a scoped API key, responses: {'201': {description: Secret returned once}}}
+  /v1/account/api-keys/{id}:
+    delete: {summary: Revoke an API key, parameters: [{in: path, name: id, required: true, schema: {type: string}}], responses: {'200': {description: Revoked}}}
+  /v1/account/audit:
+    get: {summary: Read tenant audit events, responses: {'200': {description: Audit events}}}
+  /v1/billing/webhook:
+    post: {security: [], summary: Apply a signed provider-neutral entitlement event, parameters: [{in: header, name: X-Billing-Signature, required: true, schema: {type: string}}], responses: {'200': {description: Accepted}, '401': {description: Invalid signature}}}
+components:
+  securitySchemes: {bearerAuth: {type: http, scheme: bearer}}
+  schemas:
+    VerificationRequest: {type: object, required: [email, idempotency_key], properties: {email: {type: string, format: email}, idempotency_key: {type: string}, purpose: {enum: [signup_validation, crm_hygiene, authorized_bulk, internal_enterprise]}, profile: {enum: [fast, balanced, deep]}}}
+    BulkRequest: {type: object, required: [emails], properties: {emails: {type: array, maxItems: 100000, items: {type: string}}, profile: {enum: [fast, balanced, deep]}, webhook_url: {type: string, format: uri}}}
+    VerificationResult: {type: object, required: [verificationId, state, input, policy], properties: {verificationId: {type: string}, state: {enum: [complete, pending_refinement, restricted]}, assessment: {type: object}, policy: {type: object}}}
